@@ -1,8 +1,7 @@
-require('dotenv').config(); // Load environment variables from .env file
+require('dotenv').config(); 
 
 const { Client, GatewayIntentBits, REST, Routes } = require('discord.js');
 
-// Retrieve the bot token from environment variables
 const token = process.env.DISCORD_TOKEN;
 
 if (!token) {
@@ -10,7 +9,6 @@ if (!token) {
     process.exit(1);
 }
 
-// Extract and decode clientId from the token
 const encodedClientId = token.split('.')[0];
 const clientId = Buffer.from(encodedClientId, 'base64').toString();
 
@@ -18,7 +16,6 @@ const client = new Client({
     intents: [GatewayIntentBits.Guilds], // Correct intent for slash commands
 });
 
-// Define the slash command
 const commands = [
     {
         name: 'linux',
@@ -26,14 +23,14 @@ const commands = [
     },
 ];
 
-// Register the slash command globally
+
 const rest = new REST({ version: '10' }).setToken(token);
 
 (async () => {
     try {
         console.log('Registering global slash commands...');
         await rest.put(
-            Routes.applicationCommands(clientId), // Register commands globally
+            Routes.applicationCommands(clientId),
             { body: commands },
         );
         console.log('Global slash commands registered successfully!');
@@ -42,7 +39,6 @@ const rest = new REST({ version: '10' }).setToken(token);
     }
 })();
 
-// Handle interactions
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
 
@@ -51,7 +47,6 @@ client.on('interactionCreate', async (interaction) => {
     }
 });
 
-// Log in the bot
 client.once('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
