@@ -13,7 +13,7 @@ const encodedClientId = token.split('.')[0];
 const clientId = Buffer.from(encodedClientId, 'base64').toString();
 
 const client = new Client({
-    intents: [GatewayIntentBits.Guilds], // Correct intent for slash commands
+    intents: [GatewayIntentBits.Guilds], 
 });
 
 const commands = [
